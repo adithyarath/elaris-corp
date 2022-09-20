@@ -111,6 +111,15 @@
 	transition: .3s ease-in-out;
 }
 
+.form__div {
+	padding: 0 20px 0 20px;
+	width: 60%;
+	justify-self: center;
+	animation: fadeIn 2s;
+	box-shadow: 2px 1px 2px #66aec7;
+	border-radius: 10px;
+}
+
 /* Animations */
 
 @keyframes fadeIn {
@@ -148,3 +157,5 @@
 
 
 }
+
+

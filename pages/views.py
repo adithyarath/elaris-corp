@@ -70,7 +70,13 @@ class ContactView(View):
 	                'details': form.cleaned_data['details'],
 				}
 				message = "\n".join(body.values())
-				send_mail(subject, message, 'eavhshelumiel@gmail.com', ['eavshelumiel@gmail.com'])
+				# send_mail(subject, message, 'eavhshelumiel@gmail.com', ['eavshelumiel@gmail.com'])
+				send_mail(
+					subject=subject,
+					message=message,
+					from_email=body['email'],
+					recipient_list=['elaris.onrender.com']
+				)
 				form = ContactUsForm()
 			else:
 				form = ContactUsForm()
@@ -88,3 +94,11 @@ def thanks(request):
 	context = {}
 
 	return render(request, template, context)
+
+def joinus(request):
+	template = 'joinus.html'
+	context = {}
+
+	return render(request, template, context)
+
+	
