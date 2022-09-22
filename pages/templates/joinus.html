@@ -42,30 +42,20 @@
                 <thead>
                     <tr>
                       <th></th>
-                      <th></th>
                       <th><h1>Recent Openings</h1></th>
+                      <th></th>
                       <th></th>
                     </tr>
                   </thead>
                 <tbody>
-                    <tr>
-                      <td><strong>Software Engineer</strong></td>
+                  {% for i in jobs %}
+                  <tr>
+                      <td><strong>{{ i.title }}</strong></td>
                       <td></td>
                       <td></td>
-                      <td><button class="button-71" role="button">Apply Now</button></td>
-                    </tr>
-                    <tr>
-                      <td><strong>UI/UX Designer</strong></td>
-                      <td></td>
-                      <td></td>
-                      <td><button class="button-71" role="button">Apply Now</button></td>
-                    </tr>
-                    <tr>
-                      <td><strong>Machine Learning Engineer</strong></td>
-                      <td></td>
-                      <td></td>
-                      <td><button class="button-71" role="button">Apply Now</button></td>
-                    </tr>
+                      <td><a href="/job_detail/{{i.id}}/"><button class="button-71" role="button">Apply Now</button></a></td>
+                  </tr>
+                  {% endfor %}
                   </tbody>
             </table>
           </div>

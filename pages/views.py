@@ -4,7 +4,9 @@ from django.core.mail import send_mail
 
 from solutions.models import *
 from contact.models import *
+from pages.models import *
 
+from pages.forms import *
 from contact.forms import *
 
 # Create your views here.
@@ -97,8 +99,39 @@ def thanks(request):
 
 def joinus(request):
 	template = 'joinus.html'
-	context = {}
+	jobs = Job.objects.all().order_by('-creation_date')
+	context = {
+		'jobs': jobs
+	}
 
 	return render(request, template, context)
 
+def job_detail(request, myid):
 	
+	form = JobDetailForm(request.POST)
+	if request.method == "POST":
+			if form.is_valid():
+				applicant_name = form.cleaned_data['applicant_name']
+				applicant_phone = form.cleaned_data['applicant_phone']
+				applicant_email = form.cleaned_data['applicant_phone']
+				resume = form.files['resume']
+				company = 'ELARIS'
+				job_id = myid
+				apply_date = datetime.date.today()
+
+				applicant = Application()
+				applicant.company = company
+				applicant.applicant_email = applicant_email
+				applicant.applicant_name = applicant_name
+				applicant.applicant_phone = applicant_phone
+				applicant.apply_date = apply_date
+				applicant.job_id = job_id
+				applicant.resume = resume
+				applicant.save()
+				return redirect(job_detail)
+	else:
+		job = Job.objects.get(id=myid)
+		description = job.description
+		form = JobDetailForm()
+	return render(request, "job_detail.html", {'job': job, 'description': description, 'form': form })
+
