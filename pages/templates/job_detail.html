@@ -28,22 +28,6 @@
 <body>
 
     {% block content %}
-    <!-- <div class="row" style="justify-content: center; align-items: center; text-align: center;">
-        <div class="col-9"><h1>{{ job.title }}</h1></div>
-        <br><br>
-        <div class="col-6" style="background-color:lightgray;">
-            <h5>Job Description</h5>
-            <br>
-            {{ description }}
-        </div>
-        <div class="col-6">
-            <form method="post">
-                {% csrf_token %}
-                {{ form | crispy }}
-                <input class="form__btn" id="form-btn" type="submit" value="Submit" onclick="display()">
-            </form>
-        </div>
-      </div> -->
 
       <div class="main__container">
         <div class="top__head">
@@ -56,7 +40,7 @@
         </div>
         <div class="middle__div">
             <div class="form__div">
-                <form method="post">
+                <form method="post" action='/job_apply/{{job.id}}/' enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form | crispy }}
                     <input class="form__btn" id="form-btn" type="submit" value="Submit" >
@@ -77,10 +61,6 @@
     </div>
       
     {% endblock %}
-
-    {% block extra_js %}
-    {% endblock %}
-
 </body>
 
 </html>

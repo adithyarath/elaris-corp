@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse, HttpResponse
+import datetime
 from django.views import View
 from django.core.mail import send_mail
 
@@ -97,6 +99,12 @@ def thanks(request):
 
 	return render(request, template, context)
 
+def thanks2(request):
+	template = 'thanks2.html'
+	context = {}
+
+	return render(request, template, context)
+
 def joinus(request):
 	template = 'joinus.html'
 	jobs = Job.objects.all().order_by('-creation_date')
@@ -106,32 +114,33 @@ def joinus(request):
 
 	return render(request, template, context)
 
-def job_detail(request, myid):
-	
-	form = JobDetailForm(request.POST)
+def job_apply(request, myid):
+	form = JobDetailForm(request.POST, request.FILES)
+	print('hello')
 	if request.method == "POST":
-			if form.is_valid():
-				applicant_name = form.cleaned_data['applicant_name']
-				applicant_phone = form.cleaned_data['applicant_phone']
-				applicant_email = form.cleaned_data['applicant_phone']
-				resume = form.files['resume']
-				company = 'ELARIS'
-				job_id = myid
-				apply_date = datetime.date.today()
+		print(request.FILES['resume'])
+		applicant_name = request.POST['applicant_name']
+		applicant_phone = request.POST['applicant_phone']
+		applicant_email = request.POST['applicant_phone']
+		resume = request.FILES['resume']
+		company = 'ELARIS'
+		job_id = myid
+		apply_date = datetime.date.today()
 
-				applicant = Application()
-				applicant.company = company
-				applicant.applicant_email = applicant_email
-				applicant.applicant_name = applicant_name
-				applicant.applicant_phone = applicant_phone
-				applicant.apply_date = apply_date
-				applicant.job_id = job_id
-				applicant.resume = resume
-				applicant.save()
-				return redirect(job_detail)
-	else:
-		job = Job.objects.get(id=myid)
-		description = job.description
-		form = JobDetailForm()
+		applicant = Application()
+		applicant.company = company
+		applicant.applicant_email = applicant_email
+		applicant.applicant_name = applicant_name
+		applicant.applicant_phone = applicant_phone
+		applicant.apply_date = apply_date
+		applicant.job_id = job_id
+		applicant.resume = resume
+		applicant.save()
+		print(applicant)
+		return redirect(thanks2)
+
+def job_detail(request, myid):
+	job = Job.objects.get(id=myid)
+	description = job.description
+	form = JobDetailForm()
 	return render(request, "job_detail.html", {'job': job, 'description': description, 'form': form })
-
