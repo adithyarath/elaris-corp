@@ -10,6 +10,7 @@ from pages.models import *
 
 from pages.forms import *
 from contact.forms import *
+from django.conf import settings
 
 # Create your views here.
 
@@ -78,8 +79,9 @@ class ContactView(View):
 				send_mail(
 					subject=subject,
 					message=message,
-					from_email=body['email'],
-					recipient_list=['elaris.onrender.com']
+					from_email=settings.EMAIL_HOST_USER,
+					recipient_list=['contactelaris@zohomail.com'],
+					fail_silently=False
 				)
 				form = ContactUsForm()
 			else:
